@@ -6,7 +6,7 @@
 
     <h1>@yield('title')
 
-        <form   action="{{ route($property->exists ? 'admin.property.update' : 'admin.property.store',$property)}}"
+        <form   action="{{ route($property->exists ? 'admin.property.update' : 'admin.property.store', $property) }}"
                 method="post"
                 class="vstack gap-2"
         >
@@ -33,7 +33,8 @@
                 @include('shared.input',['class'=>'col', 'name'=>'city','label'=>'Ville', 'value'=>$property->city])
                 @include('shared.input',['class'=>'col', 'name'=>'postal_code','label'=>'Code postal', 'value'=>$property->postal_code])
             </div>
-            @include('shared.checkbox',['name'=>'sold','label'=>'Vendu', 'value'=>$property->sold])
+            @include('shared.select',['name'=>'options','label'=>'Options', 'value'=>$property->options()->pluck('id'),'multiple' => true])
+            @include('shared.checkbox',['name'=>'sold','label'=>'Vendu', 'value'=>$property->sold, 'options' => $options])
 
             <div>
                 <button class="btn btn-primary">

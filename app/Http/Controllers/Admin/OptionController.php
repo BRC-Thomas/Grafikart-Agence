@@ -35,7 +35,7 @@ class OptionController extends Controller
     public function store(OptionFormRequest $request)
     {
         $option = Option::create($request->validated());
-        return to_route('admin.options.index')->with('success','L\'option à été crée avec succès.');
+        return to_route('admin.option.index')->with('success','L\'option à été crée avec succès.');
     }
 
     /**
