@@ -30,8 +30,8 @@ class PropertyController extends Controller
             'rooms' => 3,
             'bedrooms' => 1,
             'floor' => 0,
-            'city' => 'Paris',
-            'postal_code' => 75000,
+            'city' => 'Nice',
+            'postal_code' => '06000',
             'sold' => false,
         ]);
 
@@ -46,30 +46,35 @@ class PropertyController extends Controller
     public function store(PropertyFormRequest $request)
     {
         $property = Property::create($request->validated());
-        return to_route('admin.property.index')->with('success','Le bien à été crée avec succès.');
+        return to_route('admin.properties.index')->with('success','Le bien à été crée avec succès.');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Property $property)
     {
-        //
+        return view('admin.properties.form',[
+            'property' => $property
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PropertyFormRequest $request, Property $property)
     {
-        //
+        $property->update($request->validated());
+        return to_route('admin.property.index')->with('success','Le bien à été modifié avec succès.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( Property $property)
     {
-        //
+        $property->delete();
+        return to_route('admin.property.index')->with('success','Le bien à été supprimé avec succès.');
+
     }
 }
