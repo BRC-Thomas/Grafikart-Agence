@@ -18,14 +18,30 @@
         <div class="mt-4">
             <h4>Intéressé par ce bien ?</h4>
 
-            <form action="" method="post" class="vstack gap-3">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="my-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('property.contact', $property) }}" method="post" class="vstack gap-3">
                 @csrf
                 <div class="row">
                     @include('shared.input',['class'=>'col', 'name'=>'firstname','label'=>'Prénom'])
                     @include('shared.input',['class'=>'col', 'name'=>'lastname','label'=>'Nom'])
                 </div>
                 <div class="row">
-                    @include('shared.input',['class'=>'col', 'phone'=>'phone','label'=>'Téléphone'])
+                    @include('shared.input',['class'=>'col', 'name'=>'phone','label'=>'Téléphone'])
                     @include('shared.input',['class'=>'col', 'name'=>'email','label'=>'Email', 'type'=>'email'])
                 </div>
                 <div class="row">

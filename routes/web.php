@@ -24,8 +24,19 @@ Route::get('/biens/{slug}-{property}', [\App\Http\Controllers\PropertyController
     'slug'=>$slugRegex
 ]);
 
+Route::post('biens/{property}/contact', [\App\Http\Controllers\PropertyController::class, 'contact'])->name('property.contact')->where([
+    'property'=> $idRegex,
+]);
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::get('/login',[\App\Http\Controllers\AuthController::class, 'login'])
+    ->middleware('quest')
+    ->name('login');
+Route::post('/login',[\App\Http\Controllers\AuthController::class, 'doLogin']);
+Route::delete('/logout',[\App\Http\Controllers\AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
    Route::resource('property', PropertyController::class)->except(['show']);
    Route::resource('option', OptionController::class)->except(['show']);
 });
